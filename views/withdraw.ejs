@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Withdraw | NovaTrading</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { background: #0a0a0a; color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .container { width: 100%; max-width: 500px; padding: 20px; }
+        
+        .card {
+            background: #111; border: 1px solid #333; padding: 30px; border-radius: 20px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+        }
+
+        .balance-display {
+            text-align: center; margin-bottom: 30px; padding: 20px;
+            background: linear-gradient(45deg, #222, #111);
+            border-radius: 10px; border: 1px solid #333;
+        }
+
+        label { color: #888; font-size: 0.9rem; display: block; margin-bottom: 8px; margin-top: 15px; }
+        input, select {
+            width: 100%; padding: 15px; background: #000; border: 1px solid #333;
+            color: white; border-radius: 8px; outline: none; font-size: 1rem;
+        }
+        input:focus, select:focus { border-color: #D4AF37; }
+
+        .btn-gold {
+            width: 100%; padding: 15px; background: #D4AF37; color: black; font-weight: bold;
+            border: none; border-radius: 8px; margin-top: 25px; cursor: pointer; font-size: 1rem;
+        }
+        .back-link { display: block; text-align: center; margin-top: 20px; color: #666; text-decoration: none; }
+        .back-link:hover { color: white; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="card">
+            <h2 style="text-align:center; margin-bottom:20px;">Withdraw Funds</h2>
+            
+            <div class="balance-display">
+                <div style="color:#888; font-size:0.9rem;">Available Balance</div>
+                <div style="font-size:2rem; color:#D4AF37;">$<%= user.balance.toLocaleString() %></div>
+            </div>
+
+            <form action="/withdraw" method="POST">
+                <label>Select Method</label>
+                <select name="method">
+                    <option value="Bitcoin">Bitcoin (BTC)</option>
+                    <option value="Ethereum">Ethereum (ETH)</option>
+                    <option value="USDT">USDT (TRC20)</option>
+                    <option value="Bank Transfer">Bank Transfer</option>
+                </select>
+
+                <label>Amount ($)</label>
+                <input type="number" name="amount" placeholder="Min: 100" required>
+
+                <label>Your Wallet Address / Bank Details</label>
+                <input type="text" name="walletAddress" placeholder="Paste address here..." required>
+
+                <button type="submit" class="btn-gold">Proceed Withdrawal</button>
+            </form>
+
+            <a href="/dashboard" class="back-link">Cancel and Go Back</a>
+        </div>
+    </div>
+
+</body>
+</html>

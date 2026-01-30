@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NovaTerminal | Live</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --gold: #D4AF37; --dark: #0b0e11; --panel: #1e2329; --border: #2b3139; --text-muted: #848e9c; --text-main: #eaecef; }
+        
+        body { background: var(--dark); color: var(--text-main); font-family: 'DINPro', 'Roboto', sans-serif; margin: 0; display:flex; height:100vh; overflow:hidden; font-size: 13px; }
+        
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #444; border-radius: 2px; }
+
+        /* SIDEBAR */
+        .sidebar { width: 50px; background: var(--dark); border-right: 1px solid var(--border); display:flex; flex-direction:column; padding-top:10px; z-index: 100; }
+        .nav-link { display: flex; align-items: center; justify-content: center; height: 50px; color: var(--text-muted); text-decoration: none; transition: 0.2s; }
+        .nav-link:hover, .nav-link.active { color: var(--gold); border-left: 2px solid var(--gold); background: rgba(212, 175, 55, 0.05); }
+
+        /* MAIN LAYOUT */
+        .main-container { flex: 1; display: flex; flex-direction: column; width: 100%; }
+        .trade-grid { display: flex; flex: 1; height: 100vh; }
+        .chart-section { flex: 1; border-right: 1px solid var(--border); position: relative; background: #000; }
+
+        /* ORDER PANEL */
+        .order-panel { width: 320px; background: var(--panel); display: flex; flex-direction: column; border-left: 1px solid var(--border); }
+        
+        .account-header { padding: 15px; border-bottom: 1px solid var(--border); background: #161a1e; }
+        .stat-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 12px; }
+        .stat-val { font-family: 'Roboto Mono', monospace; font-weight: 500; }
+        .margin-level { color: #00b894; font-weight: bold; }
+
+        /* TABS & FORM */
+        .order-tabs { display: flex; background: var(--dark); border-bottom: 1px solid var(--border); }
+        .tab { flex: 1; padding: 12px; text-align: center; cursor: pointer; color: var(--text-muted); font-size: 12px; font-weight: 600; }
+        .tab.active { color: var(--gold); border-top: 2px solid var(--gold); background: var(--panel); }
+
+        .form-content { padding: 15px; overflow-y: auto; flex: 1; }
+        .input-group { margin-bottom: 12px; }
+        label { font-size: 11px; color: var(--text-muted); display: block; margin-bottom: 4px; }
+        
+        .input-wrapper { position: relative; background: #2b3139; border-radius: 4px; display: flex; align-items: center; border: 1px solid transparent; }
+        input, select { width: 100%; padding: 10px; background: transparent; border: none; color: white; outline: none; font-family: 'Roboto Mono', monospace; font-size: 13px; text-align: right; }
+        .prefix { padding-left: 10px; color: var(--text-muted); font-size: 12px; }
+
+        /* BUTTONS */
+        .btn-group { display: flex; gap: 8px; margin-top: 15px; }
+        .btn-trade { flex: 1; padding: 12px; border: none; border-radius: 4px; font-weight: 700; cursor: pointer; color: white; font-size: 13px; }
+        .btn-buy { background: #0ecb81; } .btn-sell { background: #f6465d; }
+
+        /* POSITIONS */
+        .positions-panel { height: 280px; background: var(--dark); border-top: 1px solid var(--border); display: flex; flex-direction: column; }
+        .pos-header { padding: 10px 15px; font-size: 11px; color: var(--text-muted); background: #161a1e; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; }
+        .pos-list { overflow-y: auto; flex: 1; }
+        .pos-item { padding: 10px 15px; border-bottom: 1px solid var(--border); display: grid; grid-template-columns: 1.2fr 1fr 0.8fr 0.2fr; align-items: center; font-size: 12px; }
+        .side-buy { color: #0ecb81; background: rgba(14, 203, 129, 0.15); padding: 1px 4px; border-radius: 2px; }
+        .side-sell { color: #f6465d; background: rgba(246, 70, 93, 0.15); padding: 1px 4px; border-radius: 2px; }
+        .pnl { font-family: 'Roboto Mono', monospace; font-weight: 600; text-align: right; }
+        .market-price { font-size: 16px; font-weight: bold; color: #0ecb81; font-family: 'Roboto Mono', monospace; text-align: center; margin: 10px 0; }
+        
+        .status-dot { width: 8px; height: 8px; background: #f6465d; border-radius: 50%; display: inline-block; margin-right: 5px; }
+        .status-dot.active { background: #0ecb81; box-shadow: 0 0 5px #0ecb81; }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <a href="/dashboard" class="nav-link"><i class="fas fa-home"></i></a>
+        <a href="/trade" class="nav-link active"><i class="fas fa-chart-line"></i></a>
+        <a href="/deposit" class="nav-link"><i class="fas fa-wallet"></i></a>
+        <a href="/logout" class="nav-link" style="margin-top:auto;"><i class="fas fa-sign-out-alt"></i></a>
+    </div>
+
+    <div class="main-container">
+        <div class="trade-grid">
+            <div class="chart-section">
+                <div class="tradingview-widget-container" style="height:100%;width:100%">
+                    <div id="tradingview_chart" style="height:100%;width:100%"></div>
+                    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+                    <script type="text/javascript">
+                    new TradingView.widget({
+                        "autosize": true, "symbol": "BINANCE:BTCUSDT", "interval": "1", "timezone": "Etc/UTC", "theme": "dark", "style": "1", "locale": "en", "enable_publishing": false, "hide_top_toolbar": false, "backgroundColor": "#0b0e11", "gridColor": "#1e2329", "container_id": "tradingview_chart"
+                    });
+                    </script>
+                </div>
+            </div>
+
+            <div class="order-panel">
+                <div class="account-header">
+                    <div class="stat-row"><span class="stat-label">Balance</span><span class="stat-val">$<%= user.balance.toFixed(2) %></span></div>
+                    <div class="stat-row"><span class="stat-label">Equity</span><span class="stat-val" id="equityVal">...</span></div>
+                    <div style="font-size:10px; color:#666; margin-top:5px; display:flex; align-items:center;">
+                        <span class="status-dot" id="connectionDot"></span> 
+                        <span id="connectionSource">Connecting...</span>
+                    </div>
+                </div>
+
+                <div class="order-tabs">
+                    <div class="tab active" onclick="switchTab('market')">Market</div>
+                    <div class="tab" onclick="switchTab('limit')">Limit</div>
+                </div>
+
+                <div class="form-content">
+                    <div class="market-price" id="displayPrice">...</div>
+
+                    <form action="/trade/place" method="POST">
+                        <input type="hidden" name="currentPrice" id="inputPrice">
+                        <input type="hidden" name="orderType" id="orderTypeInput" value="MARKET">
+
+                        <div class="input-group"><label>Symbol</label><div class="input-wrapper"><select name="pair"><option value="BTCUSDT">BTC/USDT</option></select></div></div>
+
+                        <div class="input-group" id="limitPriceBox" style="display:none;">
+                            <label>Price</label><div class="input-wrapper"><span class="prefix">Price</span><input type="number" name="limitPrice" placeholder="0.00" step="0.01"></div>
+                        </div>
+
+                        <div class="input-group"><label>Amount</label><div class="input-wrapper"><span class="prefix">Size</span><input type="number" name="amount" placeholder="Min 10" required></div></div>
+
+                        <div class="input-group" style="display:flex; gap:10px;">
+                            <div style="flex:1;"><label>TP</label><div class="input-wrapper"><input type="number" name="tp" placeholder="Profit"></div></div>
+                            <div style="flex:1;"><label>SL</label><div class="input-wrapper"><input type="number" name="sl" placeholder="Loss"></div></div>
+                        </div>
+
+                        <div class="btn-group">
+                            <button type="submit" name="action" value="BUY" class="btn-trade btn-buy">Buy BTC</button>
+                            <button type="submit" name="action" value="SELL" class="btn-trade btn-sell">Sell BTC</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="positions-panel">
+                    <div class="pos-header">
+                        <span>Positions (<%= trades.filter(t => !t.status.includes('CLOSED')).length %>)</span>
+                        <span style="cursor:pointer;" onclick="location.reload()"><i class="fas fa-sync-alt"></i></span>
+                    </div>
+                    <div class="pos-list">
+                        <% trades.forEach(t => { %>
+                            <% if(!t.status.includes('CLOSED')) { %>
+                            <div class="pos-item" data-status="<%= t.status %>" data-entry="<%= t.entryPrice %>" data-amount="<%= t.amount %>" data-action="<%= t.action %>">
+                                <div><span style="font-weight:bold;"><%= t.pair %></span> <span class="<%= t.action=='BUY'?'side-buy':'side-sell' %>"><%= t.action %></span></div>
+                                <div class="pnl">0.00</div>
+                                <form action="/trade/close" method="POST" style="margin:0;" id="closeForm_<%= t.id %>">
+                                    <input type="hidden" name="tradeId" value="<%= t.id %>">
+                                    <input type="hidden" name="price" id="closePrice_<%= t.id %>">
+                                    <button style="background:none; border:none; cursor:pointer; color:#666;" onclick="submitClose('<%= t.id %>')"><i class="fas fa-times"></i></button>
+                                </form>
+                            </div>
+                            <% } %>
+                        <% }) %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(type) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('limitPriceBox').style.display = (type === 'limit') ? 'block' : 'none';
+            document.getElementById('orderTypeInput').value = (type === 'limit') ? 'LIMIT' : 'MARKET';
+        }
+
+        const priceDisplay = document.getElementById('displayPrice');
+        const inputPrice = document.getElementById('inputPrice');
+        const equityDisplay = document.getElementById('equityVal');
+        const connText = document.getElementById('connectionSource');
+        const connDot = document.getElementById('connectionDot');
+        const balance = <%= user.balance %>;
+        let globalPrice = 0;
+        let isConnected = false;
+
+        // --- SOURCE 1: BINANCE WEBSOCKET (Try first) ---
+        function tryBinance() {
+            connText.innerText = "Trying Binance...";
+            const socket = new WebSocket("wss://stream.binance.com:9443/ws/btcusdt@kline_1m");
+
+            socket.onmessage = function(event) {
+                const data = JSON.parse(event.data);
+                const price = parseFloat(data.k.c);
+                handlePriceUpdate(price, "Binance Live");
+            };
+
+            socket.onerror = function(error) {
+                console.log("Binance Blocked. Switching to Fallback...");
+                socket.close();
+                startFallbackLoop(); // Switch to CoinGecko
+            };
+        }
+
+        // --- SOURCE 2: COINGECKO (Fallback) ---
+        async function fetchCoinGecko() {
+            try {
+                connText.innerText = "Trying CoinGecko...";
+                const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd');
+                const data = await res.json();
+                handlePriceUpdate(data.bitcoin.usd, "CoinGecko API");
+            } catch(e) {
+                console.log("CoinGecko Blocked. Trying CryptoCompare...");
+                fetchCryptoCompare(); // Switch to Source 3
+            }
+        }
+
+        // --- SOURCE 3: CRYPTOCOMPARE (Last Resort) ---
+        async function fetchCryptoCompare() {
+            try {
+                const res = await fetch('https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD');
+                const data = await res.json();
+                handlePriceUpdate(data.USD, "CryptoCompare");
+            } catch(e) {
+                console.log("All sources failed.");
+            }
+        }
+
+        // --- CENTRAL HANDLER ---
+        function handlePriceUpdate(price, sourceName) {
+            globalPrice = price;
+            
+            // UI Updates
+            priceDisplay.innerText = price.toFixed(2);
+            inputPrice.value = price.toFixed(2);
+            priceDisplay.style.color = '#0ecb81';
+            
+            // Connection Status
+            if(!isConnected) {
+                isConnected = true;
+                connText.innerText = "Connected: " + sourceName;
+                connText.style.color = "#0ecb81";
+                connDot.classList.add('active');
+            }
+
+            // Send to Server (Relay)
+            if (Date.now() % 1000 < 200) { // Limit to 1 request per second
+                fetch('/api/tick', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ price: price })
+                });
+            }
+
+            updateLocalPnL(price);
+        }
+
+        function startFallbackLoop() {
+            setInterval(() => {
+                fetchCoinGecko(); 
+            }, 2000); // Check every 2 seconds
+        }
+
+        function updateLocalPnL(currentPrice) {
+            let totalPnL = 0;
+            document.querySelectorAll('.pos-item').forEach(item => {
+                if (item.dataset.status === 'PENDING') {
+                    item.querySelector('.pnl').innerText = 'PENDING';
+                    return;
+                }
+                const entry = parseFloat(item.dataset.entry);
+                const amount = parseFloat(item.dataset.amount);
+                const action = item.dataset.action;
+                let pnl = 0;
+
+                if(action === 'BUY') pnl = ((currentPrice - entry) / entry) * amount * 50;
+                else pnl = ((entry - currentPrice) / entry) * amount * 50;
+                
+                totalPnL += pnl;
+                const pnlEl = item.querySelector('.pnl');
+                pnlEl.innerText = (pnl >= 0 ? '+' : '') + pnl.toFixed(2);
+                pnlEl.style.color = pnl >= 0 ? '#0ecb81' : '#f6465d';
+            });
+            equityDisplay.innerText = '$' + (balance + totalPnL).toFixed(2);
+        }
+
+        function submitClose(id) {
+            event.preventDefault();
+            document.getElementById('closePrice_' + id).value = globalPrice;
+            document.getElementById('closeForm_' + id).submit();
+        }
+
+        // START ENGINE
+        tryBinance();
+    </script>
+</body>
+</html>

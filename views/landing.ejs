@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NovaTrading Capital | Institutional Wealth Management</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="tradingview-widget-container">
+        <div class="tradingview-widget-container__widget"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+        { "symbols": [{"proName":"FOREXCOM:SPXUSD","title":"S&P 500"},{"proName":"FX_IDC:EURUSD","title":"EUR/USD"},{"proName":"BITSTAMP:BTCUSD","title":"Bitcoin"},{"proName":"TVC:GOLD","title":"Gold"},{"proName":"FOREXCOM:NSXUSD","title":"Nasdaq 100"}], "showSymbolLogo": true, "colorTheme": "dark", "isTransparent": false, "displayMode": "adaptive", "locale": "en" }
+        </script>
+    </div>
+
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+
+    <nav>
+        <div class="logo">NOVA<span class="text-gold">CAPITAL</span></div>
+        <div class="mobile-menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
+        <div class="nav-links" id="navLinks">
+            <a href="#about">Why Nova</a>
+            <a href="#markets">Markets</a>
+            <a href="#plans">Accounts</a>
+            <a href="/login">Client Login</a>
+            <a href="/register" class="btn-gold">OPEN ACCOUNT</a>
+        </div>
+    </nav>
+<header class="hero">
+        <video autoplay muted loop playsinline id="hero-video">
+            <source src="/img/hero.mp4" type="video/mp4">
+        </video>
+        <div class="hero-overlay"></div> 
+
+        <div class="hero-content fade-in-section">
+            <div style="color:var(--gold-primary); font-weight:700; letter-spacing:3px; margin-bottom:20px; display:inline-block; border-bottom: 2px solid var(--gold-primary); padding-bottom:5px;">INSTITUTIONAL EXECUTION</div>
+            <h1>Master the Markets <br> with <span class="text-gold">Precision.</span></h1>
+            <p>Trade Forex, Crypto, and Indices with ultra-low latency, deep liquidity, and bank-grade security on a platform built for elite traders.</p>
+            <div style="margin-top: 50px; display:flex; gap:20px; justify-content:center; flex-wrap:wrap;">
+                <a href="/register" class="btn-gold" style="padding:15px 50px; font-size:1.1rem;">START TRADING NOW</a>
+                <a href="#plans" class="btn-gold" style="background:transparent; border:2px solid var(--gold-primary); color:var(--gold-primary);">VIEW ACCOUNTS</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="stats-bar fade-in-section">
+        <div class="stat-item">
+            <div class="stat-num">$15B+</div>
+            <div class="stat-label text-muted">Monthly Volume</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-num">25ms</div>
+            <div class="stat-label text-muted">Avg Execution</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-num">85k+</div>
+            <div class="stat-label text-muted">Global Clients</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-num">0.0</div>
+            <div class="stat-label text-muted">Spreads From</div>
+        </div>
+    </div>
+
+    <section class="section" id="about">
+        <div class="section-header fade-in-section">
+            <h2>The Path to <span class="text-gold">Ascension</span></h2>
+            <p class="text-muted">Start trading in three simple steps.</p>
+        </div>
+        <div class="steps-grid">
+            <div class="step-card fade-in-section delay-1">
+                <div class="step-num">1</div>
+                <h3>Register Securely</h3>
+                <p class="text-muted" style="margin-top:15px;">Complete our streamlined digital onboarding process in under 3 minutes.</p>
+            </div>
+            <div class="step-card fade-in-section delay-2">
+                <div class="step-num">2</div>
+                <h3>Fund Your Capital</h3>
+                <p class="text-muted" style="margin-top:15px;">Instant deposits via USDT, Bitcoin, or Wire Transfer into segregated accounts.</p>
+            </div>
+            <div class="step-card fade-in-section delay-3">
+                <div class="step-num">3</div>
+                <h3>Execute Trades</h3>
+                <p class="text-muted" style="margin-top:15px;">Access 500+ global markets with raw institutional spreads and zero restrictions.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section section-alt">
+        <div class="section-header fade-in-section">
+            <h2>The Nova <span class="text-gold">Advantage</span></h2>
+        </div>
+        <div class="grid-4">
+            <div class="glass-panel fade-in-section delay-1">
+                <i class="fas fa-shield-alt text-gold" style="font-size:2.5rem; margin-bottom:25px;"></i>
+                <h3>Bank-Grade Security</h3>
+                <p class="text-muted">Client funds are segregated in top-tier global banks. Full encryption protects your data.</p>
+            </div>
+            <div class="glass-panel fade-in-section delay-2">
+                <i class="fas fa-bolt text-gold" style="font-size:2.5rem; margin-bottom:25px;"></i>
+                <h3>NY4 Flash Execution</h3>
+                <p class="text-muted">Co-located servers ensure your orders hit the market in milliseconds. No requotes.</p>
+            </div>
+            <div class="glass-panel fade-in-section delay-3">
+                <i class="fas fa-coins text-gold" style="font-size:2.5rem; margin-bottom:25px;"></i>
+                <h3>Deep Liquidity Pools</h3>
+                <p class="text-muted">Direct market access to over 20 Tier-1 liquidity providers for the tightest spreads.</p>
+            </div>
+            <div class="glass-panel fade-in-section delay-4">
+                <i class="fas fa-headset text-gold" style="font-size:2.5rem; margin-bottom:25px;"></i>
+                <h3>24/7 Expert Desk</h3>
+                <p class="text-muted">Multilingual support from experienced traders, available whenever the markets are open.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="markets">
+        <div class="section-header fade-in-section">
+            <h2>Live Market <span class="text-gold">Intelligence</span></h2>
+        </div>
+        <div class="fade-in-section" style="height: 500px;">
+            <div class="tradingview-widget-container" style="height: 100%; background: transparent; border:none;">
+                <div class="tradingview-widget-container__widget" style="height: 100%;"></div>
+                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js" async>
+                { "interval": "1m", "width": "100%", "isTransparent": true, "height": "100%", "symbol": "FX:EURUSD", "showIntervalTabs": true, "displayMode": "single", "locale": "en", "colorTheme": "dark" }
+                </script>
+            </div>
+        </div>
+    </section>
+
+    <section class="section section-alt" id="plans">
+        <div class="section-header fade-in-section">
+            <h2>Account <span class="text-gold">Tiers</span></h2>
+        </div>
+        <div class="grid-4">
+            <div class="glass-panel fade-in-section delay-1" style="text-align:center;">
+                <h3>Starter</h3>
+                <h1 class="text-gold" style="font-size: 3rem; margin:20px 0;">$500</h1>
+                <ul style="list-style:none; color:#aaa; line-height:2.2; margin-bottom:30px; text-align:left; display:inline-block;">
+                    <li><i class="fas fa-check text-gold"></i> Standard Spreads</li>
+                    <li><i class="fas fa-check text-gold"></i> Mobile Trading</li>
+                    <li><i class="fas fa-check text-gold"></i> Basic Support</li>
+                </ul>
+                <a href="/register" class="btn-gold" style="background:transparent; border:2px solid var(--glass-border); color:#fff; width:100%;">SELECT TIER</a>
+            </div>
+            <div class="glass-panel fade-in-section delay-2" style="text-align:center; border-color:var(--gold-primary); box-shadow: 0 0 30px rgba(212, 175, 55, 0.15); transform: scale(1.05);">
+                <span style="background:var(--gold-primary); color:black; font-size:0.8rem; padding:5px 12px; font-weight:bold; border-radius:20px; display:inline-block; margin-bottom:10px;">RECOMMENDED</span>
+                <h3>Gold Pro</h3>
+                <h1 class="text-gold" style="font-size: 3.5rem; margin:20px 0;">$10k</h1>
+                <ul style="list-style:none; color:#fff; line-height:2.2; margin-bottom:30px; text-align:left; display:inline-block;">
+                    <li><i class="fas fa-check text-gold"></i> <strong>RAW Spreads (0.0)</strong></li>
+                    <li><i class="fas fa-check text-gold"></i> Priority Withdrawals</li>
+                    <li><i class="fas fa-check text-gold"></i> Daily Premium Signals</li>
+                </ul>
+                <a href="/register" class="btn-gold" style="width:100%; box-shadow: 0 10px 20px rgba(212, 175, 55, 0.3);">SELECT TIER</a>
+            </div>
+            <div class="glass-panel fade-in-section delay-3" style="text-align:center;">
+                <h3>VIP/Institutional</h3>
+                <h1 class="text-gold" style="font-size: 3rem; margin:20px 0;">$50k+</h1>
+                <ul style="list-style:none; color:#aaa; line-height:2.2; margin-bottom:30px; text-align:left; display:inline-block;">
+                    <li><i class="fas fa-check text-gold"></i> Dedicated Manager</li>
+                    <li><i class="fas fa-check text-gold"></i> API Access (FIX)</li>
+                    <li><i class="fas fa-check text-gold"></i> Bespoke Solutions</li>
+                </ul>
+                <a href="/register" class="btn-gold" style="background:transparent; border:2px solid var(--glass-border); color:#fff; width:100%;">CONTACT US</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="fade-in-section" style="text-align:center; padding: 150px 20px; background: linear-gradient(to top, #020202, transparent);">
+        <h2 style="font-size: 3.5rem; margin-bottom: 30px;">Elevate Your Trading.</h2>
+        <a href="/register" class="btn-gold" style="padding: 20px 60px; font-size: 1.3rem;">CREATE LIVE ACCOUNT</a>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="logo" style="margin-bottom:25px;">NOVA<span class="text-gold">CAPITAL</span></div>
+                <p class="text-muted" style="line-height:1.8;">A trusted global leader in online trading, providing institutional-grade transparency and execution speed to retail investors worldwide.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul><li><a href="#about">Why Us</a></li><li><a href="#plans">Account Types</a></li><li><a href="/login">Client Portal</a></li><li><a href="#">Help Center</a></li></ul>
+            </div>
+            <div class="footer-col">
+                <h4>Markets</h4>
+                <ul><li><a href="#">Forex Pairs</a></li><li><a href="#">Cryptocurrency</a></li><li><a href="#">Global Indices</a></li><li><a href="#">Commodities</a></li></ul>
+            </div>
+            <div class="footer-col">
+                <h4>Legal & Compliance</h4>
+                <ul><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms of Service</a></li><li><a href="#">Risk Disclosure</a></li><li><a href="#">AML/KYC Policy</a></li></ul>
+            </div>
+        </div>
+        <div style="border-top:1px solid rgba(255,255,255,0.05); padding-top:30px; text-align:center; color:#444; font-size:0.85rem; line-height:1.6;">
+            <p>&copy; 2026 NovaTrading Capital. All rights reserved. Look for the lock icon to ensure secure browsing.</p>
+            <p style="margin-top:15px;">Risk Warning: Trading derivatives carries a high level of risk to your capital and you should only trade with money you can afford to lose. Past performance is not indicative of future results.</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            document.getElementById('navLinks').classList.toggle('active');
+            document.querySelector('.mobile-menu-btn i').classList.toggle('fa-times');
+        }
+
+        // Advanced Scroll Observer with Staggering support
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                // Add 'is-visible' class when element enters viewport
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    // Optional: Stop observing once visible to save resources
+                    // observer.unobserve(entry.target); 
+                }
+            });
+        }, { 
+            threshold: 0.15, // Trigger when 15% of the element is visible
+            rootMargin: "0px 0px -50px 0px" // Trigger slightly before it hits the bottom
+        });
+
+        document.querySelectorAll('.fade-in-section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
