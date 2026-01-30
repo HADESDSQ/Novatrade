@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deposit Funds</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --gold: #D4AF37; --dark: #0b0e11; --panel: #1e2329; --border: #2b3139; --text: #eaecef; }
+        body { background: var(--dark); color: var(--text); font-family: 'DINPro', sans-serif; margin: 0; padding: 20px; padding-bottom: 80px; }
+        
+        h2 { color: var(--gold); text-align: center; margin-bottom: 30px; }
+        
+        .form-group { margin-bottom: 20px; }
+        label { display: block; color: #848e9c; margin-bottom: 8px; font-size: 14px; }
+        input, select { width: 100%; padding: 15px; background: var(--panel); border: 1px solid var(--border); border-radius: 8px; color: white; font-size: 16px; outline: none; box-sizing: border-box; }
+        input:focus { border-color: var(--gold); }
+        
+        .btn-submit { width: 100%; padding: 15px; background: var(--gold); color: black; font-weight: bold; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; margin-top: 10px; }
+
+        /* MOBILE NAV */
+        .mobile-nav { display: flex; position: fixed; bottom: 0; left: 0; width: 100%; background: var(--panel); border-top: 1px solid var(--border); z-index: 1000; padding-bottom: env(safe-area-inset-bottom); }
+        .mobile-nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 12px 0; color: #848e9c; text-decoration: none; font-size: 10px; }
+        .mobile-nav-item i { font-size: 18px; margin-bottom: 4px; }
+        .mobile-nav-item.active { color: var(--gold); }
+    </style>
+</head>
+<body>
+
+    <h2>Fund Your Account</h2>
+
+    <form action="/deposit" method="POST">
+        <div class="form-group">
+            <label>Amount (USD)</label>
+            <input type="number" name="amount" placeholder="e.g. 1000" required>
+        </div>
+
+        <div class="form-group">
+            <label>Payment Method</label>
+            <select name="method">
+                <option value="BTC">Bitcoin (BTC)</option>
+                <option value="ETH">Ethereum (ETH)</option>
+                <option value="USDT">USDT (TRC20)</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Wallet Address (Optional)</label>
+            <input type="text" name="walletAddress" placeholder="Your sending address">
+        </div>
+
+        <button type="submit" class="btn-submit">Proceed to Deposit</button>
+    </form>
+
+    <div class="mobile-nav">
+        <a href="/dashboard" class="mobile-nav-item"><i class="fas fa-home"></i><span>Home</span></a>
+        <a href="/trade" class="mobile-nav-item"><i class="fas fa-chart-line"></i><span>Trade</span></a>
+        <a href="/deposit" class="mobile-nav-item active"><i class="fas fa-wallet"></i><span>Deposit</span></a>
+        <a href="/profile" class="mobile-nav-item"><i class="fas fa-user"></i><span>Profile</span></a>
+    </div>
+
+</body>
+</html>

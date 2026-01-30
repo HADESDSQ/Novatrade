@@ -84,6 +84,24 @@ app.get('/dashboard', (req, res) => {
     res.render('dashboard', { user: currentUser, transactions: txs.reverse() });
 });
 
+// --- NEW ROUTES FOR UI ---
+
+// 1. Show Deposit Page
+app.get('/deposit', (req, res) => {
+    if (!req.session.user) return res.redirect('/login');
+    const user = mockUsers.find(u => u._id === req.session.user._id);
+    res.render('deposit', { user });
+});
+
+// 2. Show Profile Page
+app.get('/profile', (req, res) => {
+    if (!req.session.user) return res.redirect('/login');
+    const user = mockUsers.find(u => u._id === req.session.user._id);
+    res.render('profile', { user });
+});
+
+// -------------------------
+
 app.post('/deposit', (req, res) => {
     if (!req.session.user) return res.redirect('/login');
     mockTransactions.push({
