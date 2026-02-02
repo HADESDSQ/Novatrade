@@ -2,201 +2,209 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live Trade</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Nova Pro | Trade</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --gold: #D4AF37; --dark: #0b0e11; --panel: #1e2329; --border: #2b3139; --text-muted: #848e9c; --text-main: #eaecef; }
+        :root { --gold: #D4AF37; --dark: #0b0e11; --panel: #161a1e; --border: #2b3139; --text: #eaecef; --green: #0ecb81; --red: #f6465d; }
         
-        body { background: var(--dark); color: var(--text-main); font-family: 'DINPro', 'Roboto', sans-serif; margin: 0; display:flex; flex-direction: column; height:100vh; overflow:hidden; font-size: 13px; }
+        body { background: var(--dark); color: var(--text); font-family: 'DINPro', sans-serif; margin: 0; display:flex; flex-direction: column; height:100vh; overflow:hidden; }
         
-        /* LAYOUT */
-        .main-container { flex: 1; display: flex; width: 100%; height: calc(100vh - 55px); /* Minus nav height */ }
+        /* HEADER (Mobile Only) */
+        .mobile-header { display: none; padding: 10px 15px; background: var(--panel); border-bottom: 1px solid var(--border); justify-content: space-between; align-items: center; z-index: 50; }
+        .mobile-header .logo { font-weight: bold; color: var(--text); letter-spacing: 1px; }
         
-        /* CHART */
-        .chart-section { flex: 1; border-right: 1px solid var(--border); background: #000; position: relative; }
+        /* MAIN LAYOUT */
+        .main-grid { display: flex; flex: 1; height: 100%; }
+        
+        /* CHART SECTION */
+        .chart-box { flex: 1; border-right: 1px solid var(--border); position: relative; background: #000; }
 
         /* ORDER PANEL */
-        .order-panel { width: 320px; background: var(--panel); display: flex; flex-direction: column; border-left: 1px solid var(--border); overflow-y: auto; }
+        .order-panel { width: 300px; background: var(--panel); display: flex; flex-direction: column; border-left: 1px solid var(--border); overflow-y: auto; }
         
-        /* Mobile Layout Override */
+        .panel-header { padding: 15px; background: var(--dark); border-bottom: 1px solid var(--border); }
+        .price-big { font-family: 'Roboto Mono'; font-size: 28px; font-weight: bold; color: var(--green); margin-bottom: 5px; }
+        .price-label { font-size: 11px; color: #848e9c; text-transform: uppercase; }
+
+        /* TABS */
+        .tabs { display: flex; background: var(--dark); margin: 10px 15px; border-radius: 4px; border: 1px solid var(--border); overflow: hidden; }
+        .tab { flex: 1; padding: 8px; text-align: center; font-size: 12px; cursor: pointer; color: #848e9c; transition: 0.2s; }
+        .tab.active { background: var(--panel); color: var(--gold); font-weight: bold; }
+
+        /* INPUTS */
+        .form-area { padding: 0 15px; }
+        .input-row { position: relative; margin-bottom: 12px; }
+        .input-row label { display: block; font-size: 10px; color: #848e9c; margin-bottom: 4px; }
+        .input-box { display: flex; align-items: center; background: var(--dark); border: 1px solid var(--border); border-radius: 4px; padding: 0 10px; height: 40px; }
+        .input-box input { flex: 1; background: none; border: none; color: white; text-align: right; font-family: 'Roboto Mono'; font-size: 14px; outline: none; }
+        .unit { font-size: 12px; color: #848e9c; margin-left: 8px; }
+
+        /* BUTTONS */
+        .btn-row { display: flex; gap: 10px; margin-top: 15px; margin-bottom: 20px; }
+        .btn { flex: 1; padding: 12px; border: none; border-radius: 4px; font-weight: bold; color: white; cursor: pointer; font-size: 14px; }
+        .buy { background: var(--green); }
+        .sell { background: var(--red); }
+
+        /* POSITIONS LIST */
+        .pos-list { flex: 1; border-top: 1px solid var(--border); background: var(--dark); overflow-y: auto; }
+        .pos-item { padding: 12px 15px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; font-size: 12px; }
+        .pos-info div { margin-bottom: 2px; }
+
+        /* HAMBURGER MENU OVERLAY */
+        .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 999; display: none; }
+        .mobile-sidebar { position: fixed; top: 0; left: -280px; width: 280px; height: 100%; background: var(--panel); z-index: 1000; transition: 0.3s; padding-top: 20px; display: flex; flex-direction: column; }
+        .mobile-sidebar.open { left: 0; }
+        .ms-link { padding: 15px 20px; color: var(--text); text-decoration: none; display: flex; align-items: center; gap: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .ms-link i { width: 20px; color: var(--gold); }
+        .close-menu { position: absolute; top: 15px; right: 20px; color: white; font-size: 20px; cursor: pointer; }
+
+        /* RESPONSIVE MAGIC */
         @media (max-width: 768px) {
-            .main-container { flex-direction: column; overflow-y: auto; }
-            .chart-section { height: 400px; width: 100%; flex: none; }
-            .order-panel { width: 100%; flex: 1; border-left: none; border-top: 1px solid var(--border); }
-        }
-
-        /* HEADER STATS */
-        .account-header { padding: 15px; border-bottom: 1px solid var(--border); background: #161a1e; }
-        .stat-row { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 12px; }
-        .stat-val { font-family: 'Roboto Mono', monospace; font-weight: 500; }
-
-        /* FORM ELEMENTS */
-        .order-tabs { display: flex; background: var(--dark); border-bottom: 1px solid var(--border); }
-        .tab { flex: 1; padding: 12px; text-align: center; cursor: pointer; color: var(--text-muted); font-size: 12px; font-weight: 600; }
-        .tab.active { color: var(--gold); border-top: 2px solid var(--gold); background: var(--panel); }
-
-        .form-content { padding: 15px; }
-        .input-group { margin-bottom: 12px; }
-        label { font-size: 11px; color: var(--text-muted); display: block; margin-bottom: 4px; }
-        .input-wrapper { background: #2b3139; border-radius: 4px; display: flex; align-items: center; }
-        input, select { width: 100%; padding: 12px; background: transparent; border: none; color: white; outline: none; font-family: 'Roboto Mono'; text-align: right; }
-        .prefix { padding-left: 10px; color: var(--text-muted); font-size: 12px; }
-
-        .btn-group { display: flex; gap: 8px; margin-top: 15px; }
-        .btn-trade { flex: 1; padding: 15px; border: none; border-radius: 4px; font-weight: 700; cursor: pointer; color: white; font-size: 14px; }
-        .btn-buy { background: #0ecb81; } 
-        .btn-sell { background: #f6465d; }
-
-        /* POSITIONS */
-        .positions-panel { background: var(--dark); border-top: 1px solid var(--border); padding-bottom: 20px; }
-        .pos-header { padding: 10px 15px; background: #161a1e; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 11px; color: #848e9c; }
-        .pos-item { padding: 10px 15px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; font-size: 12px; }
-        .pnl { font-family: 'Roboto Mono'; font-weight: bold; }
-
-        /* MOBILE BOTTOM NAV */
-        .mobile-nav { display: none; height: 55px; background: var(--panel); border-top: 1px solid var(--border); z-index: 1000; }
-        .mobile-nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #848e9c; text-decoration: none; font-size: 10px; }
-        .mobile-nav-item i { font-size: 18px; margin-bottom: 4px; }
-        .mobile-nav-item.active { color: var(--gold); }
-        
-        @media (max-width: 768px) {
-            .mobile-nav { display: flex; }
+            .mobile-header { display: flex; }
+            .main-grid { flex-direction: column; overflow-y: auto; }
+            
+            /* CHART - BIGGER FOR MOBILE */
+            .chart-box { min-height: 60vh; width: 100%; flex: none; } 
+            
+            .order-panel { width: 100%; border-left: none; border-top: 5px solid var(--dark); }
+            .price-big { font-size: 32px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="main-container">
-        <div class="chart-section">
+    <div class="mobile-header">
+        <i class="fas fa-bars" onclick="toggleMenu()" style="font-size:20px;"></i>
+        <div class="logo">BTC/USDT</div>
+        <a href="/dashboard" style="color:var(--gold);"><i class="fas fa-home"></i></a>
+    </div>
+
+    <div class="sidebar-overlay" id="overlay" onclick="toggleMenu()"></div>
+    <div class="mobile-sidebar" id="sidebar">
+        <i class="fas fa-times close-menu" onclick="toggleMenu()"></i>
+        <div style="padding: 0 20px 20px 20px; font-weight:bold; font-size:18px; color:var(--gold);">MENU</div>
+        <a href="/dashboard" class="ms-link"><i class="fas fa-th-large"></i> Dashboard</a>
+        <a href="/deposit" class="ms-link"><i class="fas fa-wallet"></i> Deposit</a>
+        <a href="/withdraw" class="ms-link"><i class="fas fa-arrow-up"></i> Withdraw</a>
+        <a href="/profile" class="ms-link"><i class="fas fa-user"></i> Profile</a>
+        <a href="/logout" class="ms-link" style="margin-top:auto; color:#f6465d;"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+
+    <div class="main-grid">
+        <div class="chart-box">
             <div class="tradingview-widget-container" style="height:100%;width:100%">
                 <div id="tradingview_chart" style="height:100%;width:100%"></div>
                 <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
                 <script type="text/javascript">
                 new TradingView.widget({
-                    "autosize": true, "symbol": "BINANCE:BTCUSDT", "interval": "1", "timezone": "Etc/UTC", "theme": "dark", "style": "1", "locale": "en", "enable_publishing": false, "hide_top_toolbar": true, "hide_legend": true, "backgroundColor": "#0b0e11", "gridColor": "#1e2329", "container_id": "tradingview_chart"
+                    "autosize": true, "symbol": "BINANCE:BTCUSDT", "interval": "15", "timezone": "Etc/UTC", "theme": "dark", "style": "1", "locale": "en", 
+                    "enable_publishing": false, 
+                    "hide_side_toolbar": false, /* ENABLED DRAWING TOOLS */
+                    "allow_symbol_change": true, 
+                    "container_id": "tradingview_chart"
                 });
                 </script>
             </div>
         </div>
 
         <div class="order-panel">
-            <div class="account-header">
-                <div class="stat-row"><span>Balance</span><span class="stat-val">$<%= user.balance.toFixed(2) %></span></div>
-                <div class="stat-row"><span>Status</span><span style="color:#0ecb81;" id="connectionStatus">Connected</span></div>
+            <div class="panel-header">
+                <div class="price-label">Market Price</div>
+                <div class="price-big" id="displayPrice">...</div>
+                <div style="font-size:12px; color:#848e9c;">Balance: <span style="color:white;">$<%= user.balance.toFixed(2) %></span></div>
             </div>
 
-            <div class="order-tabs">
-                <div class="tab active" onclick="switchTab('market')">Market</div>
-                <div class="tab" onclick="switchTab('limit')">Limit</div>
+            <div class="tabs">
+                <div class="tab active" onclick="setMode('market')">Market</div>
+                <div class="tab" onclick="setMode('limit')">Limit</div>
             </div>
 
-            <div class="form-content">
-                <div style="text-align:center; font-size:24px; font-weight:bold; color:#0ecb81; margin:10px 0; font-family:'Roboto Mono';" id="displayPrice">...</div>
+            <form action="/trade/place" method="POST" class="form-area">
+                <input type="hidden" name="currentPrice" id="inputPrice">
+                <input type="hidden" name="orderType" id="orderType" value="MARKET">
 
-                <form action="/trade/place" method="POST">
-                    <input type="hidden" name="currentPrice" id="inputPrice">
-                    <input type="hidden" name="orderType" id="orderTypeInput" value="MARKET">
-                    
-                    <div class="input-group" id="limitPriceBox" style="display:none;">
-                        <label>Limit Price</label><div class="input-wrapper"><input type="number" name="limitPrice" placeholder="0.00" step="0.01"></div>
-                    </div>
+                <div class="input-row" id="limitBox" style="display:none;">
+                    <label>Limit Price</label>
+                    <div class="input-box"><input type="number" name="limitPrice" placeholder="0.00" step="0.01"><span class="unit">USD</span></div>
+                </div>
 
-                    <div class="input-group"><label>Amount (USD)</label><div class="input-wrapper"><input type="number" name="amount" placeholder="Min 10" required></div></div>
+                <div class="input-row">
+                    <label>Amount</label>
+                    <div class="input-box"><input type="number" name="amount" placeholder="Min 10" required><span class="unit">USD</span></div>
+                </div>
 
-                    <div class="btn-group">
-                        <button type="submit" name="action" value="BUY" class="btn-trade btn-buy">Buy</button>
-                        <button type="submit" name="action" value="SELL" class="btn-trade btn-sell">Sell</button>
-                    </div>
-                </form>
+                <div class="btn-row">
+                    <button type="submit" name="action" value="BUY" class="btn buy">BUY UP</button>
+                    <button type="submit" name="action" value="SELL" class="btn sell">SELL DOWN</button>
+                </div>
+            </form>
+
+            <div style="padding:10px 15px; background:var(--dark); border-bottom:1px solid var(--border); font-size:11px; color:#848e9c; font-weight:bold;">
+                OPEN POSITIONS (<%= trades.filter(t => !t.status.includes('CLOSED')).length %>)
             </div>
-
-            <div class="positions-panel">
-                <div class="pos-header"><span>Active Positions</span> <i class="fas fa-sync-alt" onclick="location.reload()"></i></div>
-                <div id="positionsList">
-                    <% trades.forEach(t => { %>
-                        <% if(!t.status.includes('CLOSED')) { %>
-                        <div class="pos-item" data-entry="<%= t.entryPrice %>" data-amount="<%= t.amount %>" data-action="<%= t.action %>" data-id="<%= t.id %>">
-                            <div><span style="font-weight:bold"><%= t.pair %></span> <span style="font-size:10px; color:<%= t.action=='BUY'?'#0ecb81':'#f6465d' %>"><%= t.action %></span></div>
-                            <div class="pnl">0.00</div>
+            
+            <div class="pos-list">
+                <% trades.forEach(t => { %>
+                    <% if(!t.status.includes('CLOSED')) { %>
+                    <div class="pos-item" data-entry="<%= t.entryPrice %>" data-amount="<%= t.amount %>" data-action="<%= t.action %>" data-id="<%= t.id %>">
+                        <div class="pos-info">
+                            <div style="font-weight:bold; color:white;"><%= t.pair %> <span style="color:<%= t.action=='BUY'?var(--green):var(--red) %>"><%= t.action %></span></div>
+                            <div style="color:#666;">Entry: <%= t.entryPrice %></div>
+                        </div>
+                        <div style="text-align:right;">
+                            <div class="pnl" style="font-family:'Roboto Mono'; font-weight:bold;">0.00</div>
                             <form action="/trade/close" method="POST" style="margin:0" id="closeForm_<%= t.id %>">
                                 <input type="hidden" name="tradeId" value="<%= t.id %>">
                                 <input type="hidden" name="price" id="closePrice_<%= t.id %>">
-                                <i class="fas fa-times-circle" style="color:#666; font-size:16px;" onclick="submitClose('<%= t.id %>')"></i>
+                                <div onclick="submitClose('<%= t.id %>')" style="color:#666; font-size:10px; margin-top:4px; cursor:pointer;">CLOSE X</div>
                             </form>
                         </div>
-                        <% } %>
-                    <% }) %>
-                </div>
+                    </div>
+                    <% } %>
+                <% }) %>
             </div>
         </div>
     </div>
 
-    <div class="mobile-nav">
-        <a href="/dashboard" class="mobile-nav-item"><i class="fas fa-home"></i><span>Home</span></a>
-        <a href="/trade" class="mobile-nav-item active"><i class="fas fa-chart-line"></i><span>Trade</span></a>
-        <a href="/deposit" class="mobile-nav-item"><i class="fas fa-wallet"></i><span>Deposit</span></a>
-        <a href="/profile" class="mobile-nav-item"><i class="fas fa-user"></i><span>Profile</span></a>
-    </div>
-
     <script>
-        function switchTab(type) {
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            event.target.classList.add('active');
-            document.getElementById('limitPriceBox').style.display = (type === 'limit') ? 'block' : 'none';
-            document.getElementById('orderTypeInput').value = (type === 'limit') ? 'LIMIT' : 'MARKET';
+        function toggleMenu() {
+            document.getElementById('sidebar').classList.toggle('open');
+            document.getElementById('overlay').style.display = document.getElementById('sidebar').classList.contains('open') ? 'block' : 'none';
         }
 
-        const priceDisplay = document.getElementById('displayPrice');
-        const inputPrice = document.getElementById('inputPrice');
+        function setMode(mode) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('limitBox').style.display = mode === 'limit' ? 'block' : 'none';
+            document.getElementById('orderType').value = mode === 'limit' ? 'LIMIT' : 'MARKET';
+        }
+
+        const priceEl = document.getElementById('displayPrice');
+        const inputEl = document.getElementById('inputPrice');
         let globalPrice = 0;
 
-        // Try Binance First
+        // WEBSOCKET LOGIC (Same as before but cleaner)
         const socket = new WebSocket("wss://stream.binance.com:9443/ws/btcusdt@kline_1m");
         
-        socket.onmessage = function(event) {
-            const price = parseFloat(JSON.parse(event.data).k.c);
-            updateUI(price);
-        };
-        
-        socket.onerror = function() {
-            // Fallback to CoinGecko
-            document.getElementById('connectionStatus').innerText = "Using API (Slow)";
-            setInterval(async () => {
-                const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd');
-                const data = await res.json();
-                updateUI(data.bitcoin.usd);
-            }, 3000);
-        };
-
-        function updateUI(price) {
+        socket.onmessage = function(e) {
+            const price = parseFloat(JSON.parse(e.data).k.c);
             globalPrice = price;
-            priceDisplay.innerText = price.toFixed(2);
-            inputPrice.value = price.toFixed(2);
+            priceEl.innerText = price.toFixed(2);
+            inputEl.value = price.toFixed(2);
+            priceEl.style.color = price > globalPrice ? '#0ecb81' : '#f6465d'; // Flash color
             
-            // Relay to Server
-            if(Math.random() < 0.2) { // Throttle
-                fetch('/api/tick', {
-                    method: 'POST',
-                    headers: {'Content-Type':'application/json'},
-                    body: JSON.stringify({price: price})
-                });
-            }
-
             // Calc PnL
             document.querySelectorAll('.pos-item').forEach(el => {
                 const entry = parseFloat(el.dataset.entry);
                 const amount = parseFloat(el.dataset.amount);
                 const action = el.dataset.action;
-                let pnl = 0;
-                if(action === 'BUY') pnl = ((price - entry)/entry)*amount*50;
-                else pnl = ((entry - price)/entry)*amount*50;
-                
+                let pnl = action === 'BUY' ? ((price - entry)/entry)*amount*50 : ((entry - price)/entry)*amount*50;
                 const pnlEl = el.querySelector('.pnl');
                 pnlEl.innerText = (pnl>0?'+':'') + pnl.toFixed(2);
                 pnlEl.style.color = pnl>0 ? '#0ecb81' : '#f6465d';
             });
-        }
+        };
 
         function submitClose(id) {
             document.getElementById('closePrice_'+id).value = globalPrice;
