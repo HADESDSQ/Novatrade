@@ -3,296 +3,228 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NovaCapital | Institutional Execution</title>
+    <title>NovaTrading Capital | Institutional Wealth Management</title>
+    <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root { --gold: #D4AF37; --dark: #000000; --panel: #0b0e11; --text: #eaecef; --text-muted: #848e9c; }
-        
-        body { margin: 0; font-family: 'DINPro', 'Roboto', sans-serif; background: var(--dark); color: var(--text); overflow-x: hidden; }
-        a { text-decoration: none; color: inherit; }
-        
-        /* NAVBAR */
-        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; position: fixed; width: 100%; top: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); z-index: 1000; box-sizing: border-box; }
-        .logo { font-size: 20px; font-weight: bold; letter-spacing: 1px; color: white; }
-        .nav-links { display: flex; gap: 30px; font-size: 14px; color: var(--text-muted); }
-        .nav-links a:hover { color: var(--gold); }
-        .btn-login { border: 1px solid var(--gold); color: var(--gold); padding: 8px 20px; border-radius: 4px; transition: 0.2s; }
-        .btn-login:hover { background: var(--gold); color: black; }
-
-        /* HERO SECTION */
-        .hero { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; background: radial-gradient(circle at center, #1a1f26 0%, #000000 70%); padding: 0 20px; }
-        .sub-hero { color: var(--gold); font-size: 12px; letter-spacing: 2px; margin-bottom: 20px; text-transform: uppercase; }
-        h1 { font-size: 60px; line-height: 1.1; margin: 0 0 20px 0; background: linear-gradient(to right, #fff, #888); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .hero-desc { color: var(--text-muted); max-width: 600px; margin-bottom: 40px; font-size: 18px; }
-        
-        .cta-group { display: flex; gap: 20px; }
-        .btn-primary { background: var(--gold); color: black; padding: 15px 40px; font-weight: bold; border-radius: 2px; text-transform: uppercase; font-size: 14px; letter-spacing: 1px; transition: 0.3s; }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2); }
-        .btn-secondary { border: 1px solid #333; color: white; padding: 15px 40px; font-weight: bold; border-radius: 2px; text-transform: uppercase; font-size: 14px; letter-spacing: 1px; transition: 0.3s; }
-        .btn-secondary:hover { border-color: white; }
-
-        /* STATS BAR */
-        .stats-bar { display: flex; justify-content: center; gap: 80px; padding: 40px 0; border-bottom: 1px solid #111; flex-wrap: wrap; }
-        .stat-item { text-align: center; }
-        .stat-val { font-size: 28px; font-weight: bold; color: var(--gold); }
-        .stat-label { font-size: 12px; color: var(--text-muted); margin-top: 5px; }
-
-        /* SECTIONS GENERAL */
-        .section { padding: 100px 20px; max-width: 1200px; margin: 0 auto; text-align: center; }
-        .section-title { font-size: 32px; margin-bottom: 10px; }
-        .section-sub { color: var(--text-muted); margin-bottom: 60px; }
-
-        /* STEPS (Path to Ascension) */
-        .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; }
-        .step-card { padding: 20px; }
-        .step-icon { width: 60px; height: 60px; border: 1px solid var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto; color: var(--gold); font-size: 20px; }
-        .step-title { font-size: 18px; margin-bottom: 10px; }
-        .step-desc { color: var(--text-muted); font-size: 14px; line-height: 1.6; }
-
-        /* FEATURES (Nova Advantage) */
-        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        .feature-card { background: #0b0e11; padding: 30px; text-align: left; border: 1px solid #222; border-radius: 8px; transition: 0.3s; }
-        .feature-card:hover { border-color: var(--gold); transform: translateY(-5px); }
-        .f-icon { font-size: 24px; color: white; margin-bottom: 20px; }
-        .f-title { font-size: 18px; font-weight: bold; margin-bottom: 10px; }
-        .f-desc { color: var(--text-muted); font-size: 14px; line-height: 1.6; }
-
-        /* --- NEW TESTIMONIAL SLIDER --- */
-        .testimonial-section { background: #0b0e11; padding: 80px 0; overflow: hidden; }
-        .slider-wrapper { display: flex; gap: 20px; overflow-x: auto; padding: 20px 5%; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; }
-        .slider-wrapper::-webkit-scrollbar { display: none; } /* Hide scrollbar */
-        
-        .review-card { 
-            min-width: 300px; max-width: 300px; 
-            background: #161a1e; 
-            padding: 30px; 
-            border-radius: 12px; 
-            border: 1px solid #2b3139; 
-            scroll-snap-align: center; 
-            text-align: left;
-            flex-shrink: 0;
-        }
-        .stars { color: var(--gold); margin-bottom: 15px; font-size: 12px; }
-        .review-text { color: #eaecef; font-size: 14px; line-height: 1.6; margin-bottom: 20px; font-style: italic; }
-        .reviewer { display: flex; align-items: center; gap: 10px; }
-        .r-avatar { width: 40px; height: 40px; background: #2b3139; border-radius: 50%; display:flex; align-items:center; justify-content:center; color: var(--gold); font-weight:bold; border: 1px solid #333; }
-        .r-info div:first-child { font-weight: bold; font-size: 14px; }
-        .r-info div:last-child { color: #666; font-size: 11px; }
-
-        /* PRICING (Account Tiers) */
-        .pricing-grid { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
-        .price-card { background: #0b0e11; padding: 40px; border: 1px solid #222; border-radius: 12px; width: 300px; position: relative; }
-        .price-card.featured { border-color: var(--gold); box-shadow: 0 0 30px rgba(212, 175, 55, 0.1); }
-        .p-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--gold); color: black; padding: 4px 12px; font-size: 10px; font-weight: bold; border-radius: 10px; text-transform: uppercase; }
-        .p-name { color: var(--text-muted); font-size: 14px; margin-bottom: 10px; text-transform: uppercase; }
-        .p-price { font-size: 36px; font-weight: bold; color: white; margin-bottom: 30px; }
-        .p-list { list-style: none; padding: 0; margin-bottom: 30px; text-align: left; }
-        .p-list li { margin-bottom: 12px; color: #ccc; font-size: 14px; display: flex; align-items: center; gap: 10px; }
-        .p-list li i { color: var(--gold); font-size: 10px; }
-        .btn-price { display: block; width: 100%; padding: 15px; border: 1px solid var(--gold); color: var(--gold); text-align: center; font-weight: bold; transition: 0.2s; }
-        .featured .btn-price { background: var(--gold); color: black; }
-
-        /* FOOTER */
-        footer { border-top: 1px solid #222; padding: 60px 20px; font-size: 12px; color: #666; text-align: center; }
-        .footer-links { display: flex; justify-content: center; gap: 30px; margin-bottom: 40px; }
-        .footer-links a { color: #888; transition: 0.2s; }
-        .footer-links a:hover { color: white; }
-
-        @media (max-width: 768px) {
-            h1 { font-size: 40px; }
-            .nav-links { display: none; }
-            .stats-bar { gap: 30px; }
-            .pricing-grid { flex-direction: column; align-items: center; }
-        }
-    </style>
 </head>
 <body>
 
-    <nav class="navbar">
-        <div class="logo">NOVACAPITAL</div>
-        <div class="nav-links">
+    <div class="tradingview-widget-container">
+        <div class="tradingview-widget-container__widget"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+        { "symbols": [{"proName":"FOREXCOM:SPXUSD","title":"S&P 500"},{"proName":"FX_IDC:EURUSD","title":"EUR/USD"},{"proName":"BITSTAMP:BTCUSD","title":"Bitcoin"},{"proName":"TVC:GOLD","title":"Gold"},{"proName":"FOREXCOM:NSXUSD","title":"Nasdaq 100"}], "showSymbolLogo": true, "colorTheme": "dark", "isTransparent": false, "displayMode": "adaptive", "locale": "en" }
+        </script>
+    </div>
+
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+
+    <nav>
+        <div class="logo">NOVA<span class="text-gold">CAPITAL</span></div>
+        <div class="mobile-menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
+        <div class="nav-links" id="navLinks">
+            <a href="#about">Why Nova</a>
             <a href="#markets">Markets</a>
-            <a href="#accounts">Accounts</a>
-            <a href="#about">Why Us</a>
+            <a href="#plans">Accounts</a>
+            <a href="/login">Client Login</a>
+            <a href="/register" class="btn-gold">OPEN ACCOUNT</a>
         </div>
-        <a href="/login" class="btn-login">Client Login</a>
     </nav>
+<header class="hero">
+        <video autoplay muted loop playsinline id="hero-video">
+            <source src="/img/hero.mp4" type="video/mp4">
+        </video>
+        <div class="hero-overlay"></div> 
 
-    <div class="hero">
-        <div class="sub-hero">Institutional Execution</div>
-        <h1>Master the Markets<br>with Precision.</h1>
-        <p class="hero-desc">Trade Forex, Crypto, and Indices with ultra-low latency, deep liquidity, and bank-grade security on a platform built for elite traders.</p>
-        <div class="cta-group">
-            <a href="/register" class="btn-primary">Start Trading Now</a>
-            <a href="/login" class="btn-secondary">View Accounts</a>
+        <div class="hero-content fade-in-section">
+            <div style="color:var(--gold-primary); font-weight:700; letter-spacing:3px; margin-bottom:20px; display:inline-block; border-bottom: 2px solid var(--gold-primary); padding-bottom:5px;">INSTITUTIONAL EXECUTION</div>
+            <h1>Master the Markets <br> with <span class="text-gold">Precision.</span></h1>
+            <p>Trade Forex, Crypto, and Indices with ultra-low latency, deep liquidity, and bank-grade security on a platform built for elite traders.</p>
+            <div style="margin-top: 50px; display:flex; gap:20px; justify-content:center; flex-wrap:wrap;">
+                <a href="/register" class="btn-gold" style="padding:15px 50px; font-size:1.1rem;">START TRADING NOW</a>
+                <a href="#plans" class="btn-gold" style="background:transparent; border:2px solid var(--gold-primary); color:var(--gold-primary);">VIEW ACCOUNTS</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="stats-bar fade-in-section">
+        <div class="stat-item">
+            <div class="stat-num">$15B+</div>
+            <div class="stat-label text-muted">Monthly Volume</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-num">25ms</div>
+            <div class="stat-label text-muted">Avg Execution</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-num">85k+</div>
+            <div class="stat-label text-muted">Global Clients</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-num">0.0</div>
+            <div class="stat-label text-muted">Spreads From</div>
         </div>
     </div>
 
-    <div class="stats-bar">
-        <div class="stat-item">
-            <div class="stat-val">$15B+</div>
-            <div class="stat-label">Monthly Volume</div>
+    <section class="section" id="about">
+        <div class="section-header fade-in-section">
+            <h2>The Path to <span class="text-gold">Ascension</span></h2>
+            <p class="text-muted">Start trading in three simple steps.</p>
         </div>
-        <div class="stat-item">
-            <div class="stat-val">25ms</div>
-            <div class="stat-label">Avg Execution</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-val">85k+</div>
-            <div class="stat-label">Global Clients</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-val">0.0</div>
-            <div class="stat-label">Spreads From</div>
-        </div>
-    </div>
-
-    <div class="section">
-        <div class="section-title">The Path to Ascension</div>
-        <div class="section-sub">Start trading in three simple steps.</div>
-        
         <div class="steps-grid">
-            <div class="step-card">
-                <div class="step-icon">1</div>
-                <div class="step-title">Register Securely</div>
-                <div class="step-desc">Complete our streamlined digital onboarding process in under 2 minutes.</div>
+            <div class="step-card fade-in-section delay-1">
+                <div class="step-num">1</div>
+                <h3>Register Securely</h3>
+                <p class="text-muted" style="margin-top:15px;">Complete our streamlined digital onboarding process in under 3 minutes.</p>
             </div>
-            <div class="step-card">
-                <div class="step-icon">2</div>
-                <div class="step-title">Fund Your Capital</div>
-                <div class="step-desc">Instant deposits via USDT, Bitcoin, or Wire Transfer into segregated accounts.</div>
+            <div class="step-card fade-in-section delay-2">
+                <div class="step-num">2</div>
+                <h3>Fund Your Capital</h3>
+                <p class="text-muted" style="margin-top:15px;">Instant deposits via USDT, Bitcoin, or Wire Transfer into segregated accounts.</p>
             </div>
-            <div class="step-card">
-                <div class="step-icon">3</div>
-                <div class="step-title">Execute Trades</div>
-                <div class="step-desc">Access 500+ global markets with raw institutional spreads and zero restrictions.</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="section" style="background:#0b0e11;">
-        <div class="section-title">The Nova Advantage</div>
-        <div class="section-sub">Built differently for a reason.</div>
-
-        <div class="features-grid">
-            <div class="feature-card">
-                <i class="fas fa-shield-alt f-icon"></i>
-                <div class="f-title">Bank-Grade Security</div>
-                <div class="f-desc">Client funds are segregated in top-tier global banks. Military-grade encryption protects your data.</div>
-            </div>
-            <div class="feature-card">
-                <i class="fas fa-bolt f-icon"></i>
-                <div class="f-title">ECN Flash Execution</div>
-                <div class="f-desc">Co-located servers ensure your orders fill the market in milliseconds. No requotes.</div>
-            </div>
-            <div class="feature-card">
-                <i class="fas fa-layer-group f-icon"></i>
-                <div class="f-title">Deep Liquidity Pools</div>
-                <div class="f-desc">Direct market access to over 20 Tier-1 liquidity providers for the tightest spreads.</div>
+            <div class="step-card fade-in-section delay-3">
+                <div class="step-num">3</div>
+                <h3>Execute Trades</h3>
+                <p class="text-muted" style="margin-top:15px;">Access 500+ global markets with raw institutional spreads and zero restrictions.</p>
             </div>
         </div>
-    </div>
+    </section>
 
-    <div class="testimonial-section">
-        <div class="section-title">Trader Intelligence</div>
-        <div class="section-sub" style="margin-bottom:30px;">What our elite clients are saying.</div>
-
-        <div class="slider-wrapper">
-            <div class="review-card">
-                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                <div class="review-text">"The execution speed on Nova is unmatched. I switched from my old broker and the 50x leverage helped me scale my strategy."</div>
-                <div class="reviewer">
-                    <div class="r-avatar">M</div>
-                    <div class="r-info"><div>Michael T.</div><div>Pro Trader</div></div>
-                </div>
+    <section class="section section-alt">
+        <div class="section-header fade-in-section">
+            <h2>The Nova <span class="text-gold">Advantage</span></h2>
+        </div>
+        <div class="grid-4">
+            <div class="glass-panel fade-in-section delay-1">
+                <i class="fas fa-shield-alt text-gold" style="font-size:2.5rem; margin-bottom:25px;"></i>
+                <h3>Bank-Grade Security</h3>
+                <p class="text-muted">Client funds are segregated in top-tier global banks. Full encryption protects your data.</p>
             </div>
-
-            <div class="review-card">
-                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                <div class="review-text">"Finally a platform that makes sense on mobile. The grid layout is clean and the charts actually work on my phone."</div>
-                <div class="reviewer">
-                    <div class="r-avatar">S</div>
-                    <div class="r-info"><div>Sarah J.</div><div>Day Trader</div></div>
-                </div>
+            <div class="glass-panel fade-in-section delay-2">
+                <i class="fas fa-bolt text-gold" style="font-size:2.5rem; margin-bottom:25px;"></i>
+                <h3>NY4 Flash Execution</h3>
+                <p class="text-muted">Co-located servers ensure your orders hit the market in milliseconds. No requotes.</p>
             </div>
-
-            <div class="review-card">
-                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                <div class="review-text">"Deposits via USDT are instant. Support helped me resolve a margin issue within minutes. Highly recommended."</div>
-                <div class="reviewer">
-                    <div class="r-avatar">D</div>
-                    <div class="r-info"><div>David O.</div><div>Crypto Investor</div></div>
-                </div>
+            <div class="glass-panel fade-in-section delay-3">
+                <i class="fas fa-coins text-gold" style="font-size:2.5rem; margin-bottom:25px;"></i>
+                <h3>Deep Liquidity Pools</h3>
+                <p class="text-muted">Direct market access to over 20 Tier-1 liquidity providers for the tightest spreads.</p>
             </div>
-
-            <div class="review-card">
-                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                <div class="review-text">"I love the Gold Pro tier. The raw spreads make a huge difference for my scalping bots."</div>
-                <div class="reviewer">
-                    <div class="r-avatar">A</div>
-                    <div class="r-info"><div>Alex R.</div><div>Algo Trader</div></div>
-                </div>
+            <div class="glass-panel fade-in-section delay-4">
+                <i class="fas fa-headset text-gold" style="font-size:2.5rem; margin-bottom:25px;"></i>
+                <h3>24/7 Expert Desk</h3>
+                <p class="text-muted">Multilingual support from experienced traders, available whenever the markets are open.</p>
             </div>
         </div>
-    </div>
+    </section>
 
-    <div class="section" id="accounts">
-        <div class="section-title">Account Tiers</div>
-        <div class="section-sub">Tailored for every stage of your journey.</div>
+    <section class="section" id="markets">
+        <div class="section-header fade-in-section">
+            <h2>Live Market <span class="text-gold">Intelligence</span></h2>
+        </div>
+        <div class="fade-in-section" style="height: 500px;">
+            <div class="tradingview-widget-container" style="height: 100%; background: transparent; border:none;">
+                <div class="tradingview-widget-container__widget" style="height: 100%;"></div>
+                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js" async>
+                { "interval": "1m", "width": "100%", "isTransparent": true, "height": "100%", "symbol": "FX:EURUSD", "showIntervalTabs": true, "displayMode": "single", "locale": "en", "colorTheme": "dark" }
+                </script>
+            </div>
+        </div>
+    </section>
 
-        <div class="pricing-grid">
-            <div class="price-card">
-                <div class="p-name">Starter</div>
-                <div class="p-price">$500</div>
-                <ul class="p-list">
-                    <li><i class="fas fa-check"></i> Standard Spreads</li>
-                    <li><i class="fas fa-check"></i> Mobile Trading</li>
-                    <li><i class="fas fa-check"></i> Basic Support</li>
-                    <li><i class="fas fa-check"></i> 1:50 Leverage</li>
+    <section class="section section-alt" id="plans">
+        <div class="section-header fade-in-section">
+            <h2>Account <span class="text-gold">Tiers</span></h2>
+        </div>
+        <div class="grid-4">
+            <div class="glass-panel fade-in-section delay-1" style="text-align:center;">
+                <h3>Starter</h3>
+                <h1 class="text-gold" style="font-size: 3rem; margin:20px 0;">$500</h1>
+                <ul style="list-style:none; color:#aaa; line-height:2.2; margin-bottom:30px; text-align:left; display:inline-block;">
+                    <li><i class="fas fa-check text-gold"></i> Standard Spreads</li>
+                    <li><i class="fas fa-check text-gold"></i> Mobile Trading</li>
+                    <li><i class="fas fa-check text-gold"></i> Basic Support</li>
                 </ul>
-                <a href="/register" class="btn-price">SELECT TIER</a>
+                <a href="/register" class="btn-gold" style="background:transparent; border:2px solid var(--glass-border); color:#fff; width:100%;">SELECT TIER</a>
             </div>
-
-            <div class="price-card featured">
-                <div class="p-badge">RECOMMENDED</div>
-                <div class="p-name">Gold Pro</div>
-                <div class="p-price">$10k</div>
-                <ul class="p-list">
-                    <li><i class="fas fa-check"></i> <b>RAW Spreads (0.0)</b></li>
-                    <li><i class="fas fa-check"></i> Priority Withdrawals</li>
-                    <li><i class="fas fa-check"></i> Daily Premium Signals</li>
-                    <li><i class="fas fa-check"></i> 1:100 Leverage</li>
+            <div class="glass-panel fade-in-section delay-2" style="text-align:center; border-color:var(--gold-primary); box-shadow: 0 0 30px rgba(212, 175, 55, 0.15); transform: scale(1.05);">
+                <span style="background:var(--gold-primary); color:black; font-size:0.8rem; padding:5px 12px; font-weight:bold; border-radius:20px; display:inline-block; margin-bottom:10px;">RECOMMENDED</span>
+                <h3>Gold Pro</h3>
+                <h1 class="text-gold" style="font-size: 3.5rem; margin:20px 0;">$10k</h1>
+                <ul style="list-style:none; color:#fff; line-height:2.2; margin-bottom:30px; text-align:left; display:inline-block;">
+                    <li><i class="fas fa-check text-gold"></i> <strong>RAW Spreads (0.0)</strong></li>
+                    <li><i class="fas fa-check text-gold"></i> Priority Withdrawals</li>
+                    <li><i class="fas fa-check text-gold"></i> Daily Premium Signals</li>
                 </ul>
-                <a href="/register" class="btn-price">SELECT TIER</a>
+                <a href="/register" class="btn-gold" style="width:100%; box-shadow: 0 10px 20px rgba(212, 175, 55, 0.3);">SELECT TIER</a>
             </div>
-
-            <div class="price-card">
-                <div class="p-name">VIP Institutional</div>
-                <div class="p-price">$50k+</div>
-                <ul class="p-list">
-                    <li><i class="fas fa-check"></i> Dedicated Manager</li>
-                    <li><i class="fas fa-check"></i> API Access (FIX)</li>
-                    <li><i class="fas fa-check"></i> Bespoke Solutions</li>
-                    <li><i class="fas fa-check"></i> Custom Leverage</li>
+            <div class="glass-panel fade-in-section delay-3" style="text-align:center;">
+                <h3>VIP/Institutional</h3>
+                <h1 class="text-gold" style="font-size: 3rem; margin:20px 0;">$50k+</h1>
+                <ul style="list-style:none; color:#aaa; line-height:2.2; margin-bottom:30px; text-align:left; display:inline-block;">
+                    <li><i class="fas fa-check text-gold"></i> Dedicated Manager</li>
+                    <li><i class="fas fa-check text-gold"></i> API Access (FIX)</li>
+                    <li><i class="fas fa-check text-gold"></i> Bespoke Solutions</li>
                 </ul>
-                <a href="/register" class="btn-price">CONTACT US</a>
+                <a href="/register" class="btn-gold" style="background:transparent; border:2px solid var(--glass-border); color:#fff; width:100%;">CONTACT US</a>
             </div>
         </div>
-    </div>
+    </section>
+
+    <section class="fade-in-section" style="text-align:center; padding: 150px 20px; background: linear-gradient(to top, #020202, transparent);">
+        <h2 style="font-size: 3.5rem; margin-bottom: 30px;">Elevate Your Trading.</h2>
+        <a href="/register" class="btn-gold" style="padding: 20px 60px; font-size: 1.3rem;">CREATE LIVE ACCOUNT</a>
+    </section>
 
     <footer>
-        <div class="logo" style="margin-bottom:20px; color:#444;">NOVACAPITAL</div>
-        <div class="footer-links">
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms of Service</a>
-            <a href="#">Risk Disclosure</a>
-            <a href="#">AML/KYC Policy</a>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="logo" style="margin-bottom:25px;">NOVA<span class="text-gold">CAPITAL</span></div>
+                <p class="text-muted" style="line-height:1.8;">A trusted global leader in online trading, providing institutional-grade transparency and execution speed to retail investors worldwide.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul><li><a href="#about">Why Us</a></li><li><a href="#plans">Account Types</a></li><li><a href="/login">Client Portal</a></li><li><a href="#">Help Center</a></li></ul>
+            </div>
+            <div class="footer-col">
+                <h4>Markets</h4>
+                <ul><li><a href="#">Forex Pairs</a></li><li><a href="#">Cryptocurrency</a></li><li><a href="#">Global Indices</a></li><li><a href="#">Commodities</a></li></ul>
+            </div>
+            <div class="footer-col">
+                <h4>Legal & Compliance</h4>
+                <ul><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms of Service</a></li><li><a href="#">Risk Disclosure</a></li><li><a href="#">AML/KYC Policy</a></li></ul>
+            </div>
         </div>
-        <div>
-            &copy; 2026 NovaCapital. All rights reserved.<br>
-            Risk Warning: Trading derivatives carries a high level of risk to your capital.
+        <div style="border-top:1px solid rgba(255,255,255,0.05); padding-top:30px; text-align:center; color:#444; font-size:0.85rem; line-height:1.6;">
+            <p>&copy; 2026 NovaTrading Capital. All rights reserved. Look for the lock icon to ensure secure browsing.</p>
+            <p style="margin-top:15px;">Risk Warning: Trading derivatives carries a high level of risk to your capital and you should only trade with money you can afford to lose. Past performance is not indicative of future results.</p>
         </div>
     </footer>
 
+    <script>
+        function toggleMenu() {
+            document.getElementById('navLinks').classList.toggle('active');
+            document.querySelector('.mobile-menu-btn i').classList.toggle('fa-times');
+        }
+
+        // Advanced Scroll Observer with Staggering support
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                // Add 'is-visible' class when element enters viewport
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    // Optional: Stop observing once visible to save resources
+                    // observer.unobserve(entry.target); 
+                }
+            });
+        }, { 
+            threshold: 0.15, // Trigger when 15% of the element is visible
+            rootMargin: "0px 0px -50px 0px" // Trigger slightly before it hits the bottom
+        });
+
+        document.querySelectorAll('.fade-in-section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
 </body>
 </html>
