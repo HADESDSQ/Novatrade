@@ -6,6 +6,35 @@
     <title>NovaTrading Capital | Institutional Wealth Management</title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* --- NEW TESTIMONIAL SLIDER CSS --- */
+        .testimonial-section { padding: 100px 20px; background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.5)); overflow: hidden; }
+        .slider-container { display: flex; gap: 20px; overflow-x: auto; padding: 20px 0; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; /* Firefox */ }
+        .slider-container::-webkit-scrollbar { display: none; /* Chrome/Safari */ }
+        
+        .review-card { 
+            min-width: 350px; 
+            background: rgba(255, 255, 255, 0.03); 
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 30px; 
+            border-radius: 12px; 
+            scroll-snap-align: center; 
+            transition: transform 0.3s;
+        }
+        .review-card:hover { transform: translateY(-5px); border-color: var(--gold-primary); }
+        
+        .stars { color: var(--gold-primary); margin-bottom: 15px; font-size: 14px; }
+        .review-text { color: #eaecef; font-size: 15px; line-height: 1.6; margin-bottom: 25px; font-style: italic; }
+        .reviewer { display: flex; align-items: center; gap: 15px; }
+        .r-avatar { width: 45px; height: 45px; background: #2b3139; border-radius: 50%; display:flex; align-items:center; justify-content:center; color: var(--gold-primary); font-weight:bold; border: 1px solid rgba(212, 175, 55, 0.3); font-size: 18px; }
+        .r-info div:first-child { font-weight: bold; font-size: 14px; color: white; }
+        .r-info div:last-child { color: #848e9c; font-size: 12px; }
+
+        @media (max-width: 768px) {
+            .review-card { min-width: 280px; padding: 20px; }
+        }
+    </style>
 </head>
 <body>
 
@@ -30,7 +59,8 @@
             <a href="/register" class="btn-gold">OPEN ACCOUNT</a>
         </div>
     </nav>
-<header class="hero">
+
+    <header class="hero">
         <video autoplay muted loop playsinline id="hero-video">
             <source src="/img/hero.mp4" type="video/mp4">
         </video>
@@ -132,6 +162,50 @@
         </div>
     </section>
 
+    <section class="testimonial-section fade-in-section">
+        <div class="section-header">
+            <h2>Trader <span class="text-gold">Intelligence</span></h2>
+            <p class="text-muted">What our elite clients are saying.</p>
+        </div>
+
+        <div class="slider-container">
+            <div class="review-card">
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <div class="review-text">"The execution speed on Nova is unmatched. I switched from my old broker and the 50x leverage helped me scale my strategy significantly."</div>
+                <div class="reviewer">
+                    <div class="r-avatar">M</div>
+                    <div class="r-info"><div>Michael T.</div><div>Pro Trader</div></div>
+                </div>
+            </div>
+
+            <div class="review-card">
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <div class="review-text">"Finally a platform that makes sense on mobile. The grid layout is clean and the charts actually work on my phone when I'm travelling."</div>
+                <div class="reviewer">
+                    <div class="r-avatar">S</div>
+                    <div class="r-info"><div>Sarah J.</div><div>Day Trader</div></div>
+                </div>
+            </div>
+
+            <div class="review-card">
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <div class="review-text">"Deposits via USDT are instant. Support helped me resolve a margin issue within minutes. Highly recommended for crypto trading."</div>
+                <div class="reviewer">
+                    <div class="r-avatar">D</div>
+                    <div class="r-info"><div>David O.</div><div>Crypto Investor</div></div>
+                </div>
+            </div>
+
+            <div class="review-card">
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <div class="review-text">"I love the Gold Pro tier. The raw spreads make a huge difference for my scalping bots. Execution is lightning fast."</div>
+                <div class="reviewer">
+                    <div class="r-avatar">A</div>
+                    <div class="r-info"><div>Alex R.</div><div>Algo Trader</div></div>
+                </div>
+            </div>
+        </div>
+    </section>
     <section class="section section-alt" id="plans">
         <div class="section-header fade-in-section">
             <h2>Account <span class="text-gold">Tiers</span></h2>
@@ -213,8 +287,6 @@
                 // Add 'is-visible' class when element enters viewport
                 if (entry.isIntersecting) {
                     entry.target.classList.add('is-visible');
-                    // Optional: Stop observing once visible to save resources
-                    // observer.unobserve(entry.target); 
                 }
             });
         }, { 
